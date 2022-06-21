@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Link from "next/link";
 
-const HomePage: NextPage = () => {
+const SettingsPage: NextPage = () => {
   return (
     <>
       <Link href="/">
@@ -18,4 +18,4 @@ const HomePage: NextPage = () => {
   );
 };
 
-export default HomePage;
+export default SettingsPage;

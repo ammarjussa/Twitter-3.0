@@ -7,9 +7,21 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "antd": "^4.21.3",
+    "assert": "^2.0.0",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "moralis": "^1.8.0",
     "next": "latest",
+    "os-browserify": "^0.3.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-moralis": "^1.4.0",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0",
+    "web-vitals": "^2.1.4",
+    "web3uikit": "^0.1.161"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",
