@@ -57,7 +57,7 @@ a:-webkit-any-link {
 
 .logout {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin-right: 100px;
   font-weight: bold;
 }
@@ -89,8 +89,8 @@ a:-webkit-any-link {
   z-index: 999;
 }
 
-.mainContent {
-}
+/* .mainContent {
+} */
 
 .profileTweet {
   display: flex;
@@ -101,6 +101,7 @@ a:-webkit-any-link {
 
 .tweetBox {
   width: 89%;
+  background-color: transparent;
 }
 
 .profilePic {
@@ -133,7 +134,7 @@ a:-webkit-any-link {
 
 .tweetOptions {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 10px;
 }
 
