@@ -11,11 +11,14 @@ import "../components/TweetInFeed/index.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    // <MoralisProvider appId="xxxx" serverUrl="xxx">
-    <NotificationProvider>
-      <Component {...pageProps} />;
-    </NotificationProvider>
-    // </MoralisProvider>
+    <MoralisProvider
+      appId={process.env.NEXT_PUBLIC_APP_ID}
+      serverUrl={process.env.NEXT_PUBLIC_DAPP_URL}
+    >
+      <NotificationProvider>
+        <Component {...pageProps} />;
+      </NotificationProvider>
+    </MoralisProvider>
   );
 }
 

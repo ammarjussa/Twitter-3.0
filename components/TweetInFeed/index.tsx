@@ -1,9 +1,11 @@
 import { Icon } from "web3uikit";
 import { defaultImgs } from "../../defaultImages";
 
-interface Props {}
+interface Props {
+  profile: boolean;
+}
 
-const TweetInFeed: React.FC<Props> = () => {
+const TweetInFeed: React.FC<Props> = ({ profile }) => {
   return (
     <div className="feedTweet">
       <img src={defaultImgs[0]} className="profilePic" />
