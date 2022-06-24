@@ -5,10 +5,11 @@ import Sidebar from "../components/Sidebar";
 import TweetInFeed from "../components/TweetInFeed";
 import { defaultImgs } from "../defaultImages";
 import { useMoralis } from "react-moralis";
+import { useEffect } from "react";
 
 const ProfilePage: NextPage = () => {
-  const { Moralis } = useMoralis();
-  const user = Moralis.User.current();
+  const { user } = useMoralis();
+
   return (
     <div className="page">
       <div className="sideBar">
@@ -18,25 +19,27 @@ const ProfilePage: NextPage = () => {
         <div className="pageIdentify">Profile</div>
         <img
           className="profileBanner"
-          src={user.attributes.banner ? user.attributes.banner : defaultImgs[1]}
+          src={
+            user?.attributes.banner ? user?.attributes.banner : defaultImgs[1]
+          }
         />
         <div className="pfpContainer">
           <img
             className="profilePFP"
-            src={user.attributes.pfp ? user.attributes.pfp : defaultImgs[0]}
+            src={user?.attributes.pfp ? user?.attributes.pfp : defaultImgs[0]}
           />
           <div className="profileName">
-            {user.attributes.username.slice(0, 6)}
+            {user?.attributes.username.slice(0, 6)}
           </div>
-          <div className="profileWallet">{`${user.attributes.ethAddress.slice(
+          <div className="profileWallet">{`${user?.attributes.ethAddress.slice(
             0,
             4
           )}...
-            ${user.attributes.ethAddress.slice(38)}`}</div>
+            ${user?.attributes.ethAddress.slice(38)}`}</div>
           <Link href="/settings">
             <div className="profileEdit">Edit profile</div>
           </Link>
-          <div className="profileBio">{user.attributes.bio}</div>
+          <div className="profileBio">{user?.attributes.bio}</div>
           <div className="profileTabs">
             <div className="profileTab">Your Tweets</div>
           </div>

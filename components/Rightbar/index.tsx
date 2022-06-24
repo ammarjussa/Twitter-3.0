@@ -42,14 +42,14 @@ const Rightbar: React.FC<Props> = () => {
 
         <div className="trends">
           News For You
-          {trends.map((e) => {
+          {trends.map((e, i) => {
             return (
-              <>
+              <div key={i}>
                 <div className="trend" onClick={() => window.open(e.link)}>
                   <img src={e.img as any} className="trendImg"></img>
                   <div className="trendText">{e.text}</div>
                 </div>
-              </>
+              </div>
             );
           })}
         </div>
