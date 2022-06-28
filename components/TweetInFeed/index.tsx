@@ -1,7 +1,9 @@
 import { Icon } from "web3uikit";
 import { defaultImgs } from "../../defaultImages";
 import { useMoralis, useMoralisQuery } from "react-moralis";
-import { useEffect, useState } from "react";
+import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineRetweet } from "react-icons/ai";
+// import { AiFillHeart } from "react-icons/ai";
 
 interface Props {
   profile: boolean;
@@ -61,10 +63,13 @@ const TweetInFeed: React.FC<Props> = ({ profile }) => {
                       <Icon fill="#3f3f3f" size={20} svg="messageCircle" />
                     </div>
                     <div className="interactionNums">
-                      <Icon fill="#3f3f3f" size={20} svg="star" />
+                      <AiOutlineHeart fill="#3f3f3f" size={20} />
                     </div>
                     <div className="interactionNums">
                       <Icon fill="#3f3f3f" size={20} svg="matic" />
+                    </div>
+                    <div className="interactionNums">
+                      <AiOutlineRetweet fill="#3f3f3f" size={20} />
                     </div>
                   </div>
                 </div>

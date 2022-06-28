@@ -8,17 +8,17 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@types/next": "^9.0.0",
-    "antd": "^4.21.3",
+    "antd": "^4.21.4",
     "assert": "^2.0.0",
     "crypto-browserify": "^3.12.0",
     "https-browserify": "^1.0.0",
     "magic-sdk": "^8.1.1",
     "moralis": "^1.8.0",
-    "next": "latest",
+    "next": "^12.1.6",
     "os-browserify": "^0.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.4.0",
     "react-moralis": "^1.4.0",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
@@ -27,6 +27,7 @@
     "web3uikit": "^0.1.161"
   },
   "devDependencies": {
+    "@types/next": "^9.0.0",
     "@types/node": "^12.12.21",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
