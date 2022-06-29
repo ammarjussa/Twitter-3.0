@@ -8,12 +8,22 @@ import { useMoralis } from "react-moralis";
 import { useEffect } from "react";
 
 const ProfilePage: NextPage = () => {
-  const { user } = useMoralis();
+  const { user, Moralis } = useMoralis();
 
   return (
     <div className="page">
       <div className="sideBar">
         <Sidebar />
+        <div
+          className="logout"
+          onClick={() => {
+            Moralis.User.logOut().then(() => {
+              window.location.reload();
+            });
+          }}
+        >
+          Logout
+        </div>
       </div>
       <div className="mainWindow">
         <div className="pageIdentify">Profile</div>

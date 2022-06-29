@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { Input } from "web3uikit";
 import Rightbar from "../components/Rightbar";
@@ -83,6 +82,16 @@ const SettingsPage: NextPage = () => {
     <div className="page">
       <div className="sideBar">
         <Sidebar />
+        <div
+          className="logout"
+          onClick={() => {
+            Moralis.User.logOut().then(() => {
+              window.location.reload();
+            });
+          }}
+        >
+          Logout
+        </div>
       </div>
       <div className="mainWindow">
         <div className="pageIdentify">Settings</div>

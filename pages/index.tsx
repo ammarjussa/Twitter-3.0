@@ -1,100 +1,28 @@
 import { NextPage } from "next";
-import { useState, useRef } from "react";
 import { TextArea, Icon, ConnectButton } from "web3uikit";
 import Rightbar from "../components/Rightbar";
 import Sidebar from "../components/Sidebar";
 import TweetInFeed from "../components/TweetInFeed";
 import { defaultImgs } from "../defaultImages";
-import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
+import { useMoralis } from "react-moralis";
+import { useRef } from "react";
+import { useTweet } from "../providers/TweetProvider";
 
 const HomePage: NextPage = () => {
-  const { isAuthenticated, Moralis, isInitialized } = useMoralis();
-  const user = isInitialized ? Moralis.User.current() : null;
-  const contractProcessor = useWeb3ExecuteFunction();
+  const { isAuthenticated, Moralis } = useMoralis();
 
   const inputFile: any = useRef();
-  const [selectedFile, setSelectedFile] = useState<any>();
-  const [theFile, setTheFile] = useState();
-  const [tweet, setTweet] = useState<string>();
 
-  // MATIC TWEET FUNCTION
-  async function maticTweet() {
-    if (!tweet) return;
-
-    let img;
-    if (theFile) {
-      const data: any = theFile;
-      const file: any = new Moralis.File(data.name, data);
-      await file.saveIPFS();
-      img = file.ipfs();
-    } else {
-      img = "No Img";
-    }
-
-    let options = {
-      contractAddress: "0x4851C6Fdb190ea1708eaA30F92247ef7D3F49391",
-      functionName: "addTweet",
-      abi: [
-        {
-          inputs: [
-            {
-              internalType: "string",
-              name: "tweetTxt",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "tweetImg",
-              type: "string",
-            },
-          ],
-          name: "addTweet",
-          outputs: [],
-          stateMutability: "payable",
-          type: "function",
-        },
-      ],
-      params: {
-        tweetTxt: tweet,
-        tweetImg: img,
-      },
-      msgValue: Moralis.Units.ETH(1),
-    };
-
-    await contractProcessor.fetch({
-      params: options,
-      onSuccess: () => {
-        saveTweet();
-      },
-      onError: (error: any) => {
-        console.log(error.data.message);
-      },
-    });
-  }
-
-  // SAVE TWEET FUNCTION
-  const saveTweet = async () => {
-    if (!tweet) return;
-
-    const Tweets = Moralis.Object.extend("Tweets");
-
-    const newTweet = new Tweets();
-
-    newTweet.set("tweetTxt", tweet);
-    newTweet.set("tweeterPfp", user.attributes.pfp);
-    newTweet.set("tweeterAcc", user.attributes.ethAddress);
-    newTweet.set("tweeterUserName", user.attributes.username);
-
-    if (theFile) {
-      const data: any = theFile;
-      const file: any = new Moralis.File(data.name, data);
-      await file.saveIPFS();
-      newTweet.set("tweetImg", file.ipfs());
-    }
-
-    await newTweet.save();
-    window.location.reload();
-  };
+  const {
+    user,
+    selectedFile,
+    setSelectedFile,
+    theFile,
+    setTheFile,
+    setTweet,
+    saveTweet,
+    maticTweet,
+  } = useTweet();
 
   const onImageClick = () => {
     inputFile.current.click();
@@ -110,7 +38,7 @@ const HomePage: NextPage = () => {
     <>
       {isAuthenticated ? (
         <div className="page">
-          <div className="sideBar">
+          <div className="sideBar" id="side">
             <Sidebar />
             <div
               className="logout"

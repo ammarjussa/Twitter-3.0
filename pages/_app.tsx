@@ -6,6 +6,7 @@ import "../styles/Setting.css";
 import "../components/Sidebar/index.css";
 import "../components/Rightbar/index.css";
 import "../components/TweetInFeed/index.css";
+import { TweetProvider } from "../providers/TweetProvider";
 
 function MyApp({ Component, pageProps }: any) {
   return (
@@ -13,7 +14,9 @@ function MyApp({ Component, pageProps }: any) {
       appId={process.env.NEXT_PUBLIC_APP_ID}
       serverUrl={process.env.NEXT_PUBLIC_DAPP_URL}
     >
-      <Component {...pageProps} />
+      <TweetProvider>
+        <Component {...pageProps} />
+      </TweetProvider>
     </MoralisProvider>
   );
 }
