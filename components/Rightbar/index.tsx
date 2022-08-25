@@ -17,8 +17,8 @@ const Rightbar: React.FC<Props> = () => {
           label="Search Twitter"
           name="Search Twitter"
           prefixIcon="search"
-          labelBgColor="#141d26"
-        ></Input>
+          labelBgColor="#000000"
+        />
 
         <div className="trends">
           News For You

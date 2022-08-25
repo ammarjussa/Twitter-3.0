@@ -1,5 +1,9 @@
 import { useContext, createContext, ReactNode, useState } from "react";
-import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
+import {
+  useMoralis,
+  useMoralisQuery,
+  useWeb3ExecuteFunction,
+} from "react-moralis";
 
 export const TweetContext = createContext(null);
 
@@ -19,13 +23,14 @@ export const TweetProvider: React.FC<Props> = ({ children }) => {
     if (!tweet) return;
 
     const Tweets = Moralis.Object.extend("Tweets");
-
     const newTweet = new Tweets();
 
     newTweet.set("tweetTxt", tweet);
     newTweet.set("tweeterPfp", user.attributes.pfp);
     newTweet.set("tweeterAcc", user.attributes.ethAddress);
     newTweet.set("tweeterUserName", user.attributes.username);
+    newTweet.set("tweetLikes", 0);
+    newTweet.set("tweetLikers", []);
 
     if (theFile) {
       const data: any = theFile;
@@ -35,7 +40,7 @@ export const TweetProvider: React.FC<Props> = ({ children }) => {
     }
 
     await newTweet.save();
-    window.location.reload();
+    // window.location.reload();
   };
 
   const maticTweet = async () => {
@@ -92,6 +97,27 @@ export const TweetProvider: React.FC<Props> = ({ children }) => {
     });
   };
 
+  const likeTweet = async (data: any, id: string, user: any) => {
+    const mytweet = data.filter((d) => d.id === id)[0];
+
+    if (mytweet.attributes.tweetLikers.includes(user.attributes.username)) {
+      mytweet.set("tweetLikes", mytweet.attributes.tweetLikes - 1);
+      mytweet.set(
+        "tweetLikers",
+        mytweet.attributes.tweetLikers.filter(
+          (name) => name !== user.attributes.username
+        )
+      );
+    } else {
+      mytweet.set("tweetLikes", mytweet.attributes.tweetLikes + 1);
+      mytweet.set("tweetLikers", [
+        ...mytweet.attributes.tweetLikers,
+        user.attributes.username,
+      ]);
+    }
+    await mytweet.save();
+  };
+
   return (
     <TweetContext.Provider
       value={{
@@ -104,6 +130,7 @@ export const TweetProvider: React.FC<Props> = ({ children }) => {
         setTweet,
         saveTweet,
         maticTweet,
+        likeTweet,
       }}
     >
       {children}

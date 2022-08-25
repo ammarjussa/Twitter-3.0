@@ -8,7 +8,7 @@
 }
 
 .feedTweet:hover {
-  background-color: #1c2834;
+  cursor: pointer;
 }
 
 .completeTweet {
@@ -31,6 +31,7 @@
   color: #3f3f3f;
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   gap: 10px;
   padding: 10px;
   border-radius: 1000px;
@@ -38,7 +39,7 @@
 
 .interactionNums:hover {
   cursor: pointer;
-  background-color: #1da0f20b;
+  background-color: #222222;
 }
 
 .who {

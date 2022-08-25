@@ -3,14 +3,18 @@ import { defaultImgs } from "../../defaultImages";
 import { useMoralis, useMoralisQuery } from "react-moralis";
 import { AiOutlineHeart } from "react-icons/ai";
 import { AiOutlineRetweet } from "react-icons/ai";
-// import { AiFillHeart } from "react-icons/ai";
+import { useTweet } from "../../providers/TweetProvider";
+import { AiFillHeart } from "react-icons/ai";
 
 interface Props {
   profile: boolean;
 }
 
 const TweetInFeed: React.FC<Props> = ({ profile }) => {
-  const { account } = useMoralis();
+  const { Moralis, account, isInitialized } = useMoralis();
+  const user = isInitialized ? Moralis.User.current() : null;
+
+  const { likeTweet } = useTweet();
 
   const query = profile
     ? (query) => query.equalTo("tweeterAcc", account)
@@ -34,7 +38,7 @@ const TweetInFeed: React.FC<Props> = ({ profile }) => {
                       : defaultImgs[0]
                   }
                   className="profilePic"
-                ></img>
+                />
                 <div className="completeTweet">
                   <div className="who">
                     {e.attributes.tweeterUserName.slice(0, 6)}
@@ -63,13 +67,27 @@ const TweetInFeed: React.FC<Props> = ({ profile }) => {
                       <Icon fill="#3f3f3f" size={20} svg="messageCircle" />
                     </div>
                     <div className="interactionNums">
-                      <AiOutlineHeart fill="#3f3f3f" size={20} />
+                      <AiOutlineRetweet fill="#3f3f3f" size={20} />
+                    </div>
+                    <div
+                      className="interactionNums"
+                      onClick={() => likeTweet(data, e.id, user)}
+                    >
+                      {e.attributes.tweetLikers.includes(
+                        user.attributes.username
+                      ) ? (
+                        <AiFillHeart fill="red" size={20} />
+                      ) : (
+                        <AiOutlineHeart fill="#3f3f3f" size={20} />
+                      )}
+                      <p>
+                        {e.attributes.tweetLikes === 0
+                          ? null
+                          : e.attributes.tweetLikes}
+                      </p>
                     </div>
                     <div className="interactionNums">
                       <Icon fill="#3f3f3f" size={20} svg="matic" />
-                    </div>
-                    <div className="interactionNums">
-                      <AiOutlineRetweet fill="#3f3f3f" size={20} />
                     </div>
                   </div>
                 </div>

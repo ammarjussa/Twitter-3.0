@@ -17,7 +17,6 @@ const HomePage: NextPage = () => {
     user,
     selectedFile,
     setSelectedFile,
-    theFile,
     setTheFile,
     setTweet,
     saveTweet,
