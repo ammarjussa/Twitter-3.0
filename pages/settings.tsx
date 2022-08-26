@@ -7,38 +7,15 @@ import { defaultImgs } from "../defaultImages";
 import { useMoralis, useMoralisWeb3Api } from "react-moralis";
 
 const SettingsPage: NextPage = () => {
-  const [pfps, setPfps] = useState<any>([]);
-  const [selectedPFP, setSelectedPFP] = useState();
+  const [profilePic, setProfilePic] = useState<any>([defaultImgs[0]]);
+  const [profileFile, setProfileFile] = useState();
   const inputFile = useRef(null);
+  const inputProfile = useRef(null);
   const [selectedFile, setSelectedFile] = useState(defaultImgs[1]);
   const [theFile, setTheFile] = useState();
   const [username, setUsername] = useState<string>();
   const [bio, setBio] = useState<string>();
-  const { Moralis, isAuthenticated, account, isInitialized } = useMoralis();
-  const Web3Api = useMoralisWeb3Api();
-
-  const resolveLink = (url) => {
-    if (!url || !url.includes("ipfs://")) return url;
-    return url.replace("ipfs://", "https://gateway.ipfs.io/ipfs/");
-  };
-
-  useEffect(() => {
-    const fetchNFTs = async () => {
-      const options: any = {
-        chain: "mumbai",
-        address: account,
-      };
-      if (isInitialized) {
-        const mumbaiNFTs = await Web3Api.account.getNFTs(options);
-        const images = mumbaiNFTs.result.map((e) =>
-          resolveLink(JSON.parse(e.metadata)?.image)
-        );
-        setPfps(images);
-      }
-    };
-
-    fetchNFTs();
-  }, [isAuthenticated, account, isInitialized]);
+  const { Moralis } = useMoralis();
 
   const onBannerClick = () => {
     inputFile.current.click();
@@ -59,10 +36,6 @@ const SettingsPage: NextPage = () => {
       myDetails.set("bio", bio);
     }
 
-    if (selectedPFP) {
-      myDetails.set("pfp", selectedPFP);
-    }
-
     if (username) {
       myDetails.set("username", username);
     }
@@ -74,8 +47,25 @@ const SettingsPage: NextPage = () => {
       myDetails.set("banner", file.ipfs());
     }
 
+    if (profileFile) {
+      const data: any = profileFile;
+      const file: any = new Moralis.File(data.name, data);
+      await file.saveIPFS();
+      myDetails.set("pfp", file.ipfs());
+    }
+
     await myDetails.save();
-    window.location.reload();
+    alert("Saved");
+  };
+
+  const onImageClick = () => {
+    inputProfile.current.click();
+  };
+
+  const changeProfileHandler = (event) => {
+    const img = event.target.files[0];
+    setProfileFile(img);
+    setProfilePic(URL.createObjectURL(img));
   };
 
   return (
@@ -115,19 +105,20 @@ const SettingsPage: NextPage = () => {
           />
 
           <div className="pfp">
-            Profile Image (Your NFTs)
+            Profile Image
             <div className="pfpOptions">
-              {pfps.map((e, i) => {
-                return (
-                  <img
-                    src={e}
-                    onClick={() => setSelectedPFP(pfps[i])}
-                    className={
-                      selectedPFP === e ? "pfpOptionSelected" : "pfpOption"
-                    }
-                  />
-                );
-              })}
+              <input
+                type="file"
+                name="file"
+                ref={inputProfile}
+                onChange={changeProfileHandler}
+                style={{ display: "none" }}
+              />
+              <img
+                src={profilePic}
+                className={"pfpOption"}
+                onClick={onImageClick}
+              />
             </div>
           </div>
 

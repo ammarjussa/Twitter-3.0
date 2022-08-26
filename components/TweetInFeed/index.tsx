@@ -14,7 +14,7 @@ const TweetInFeed: React.FC<Props> = ({ profile }) => {
   const { Moralis, account, isInitialized } = useMoralis();
   const user = isInitialized ? Moralis.User.current() : null;
 
-  const { likeTweet } = useTweet();
+  const { likeTweet, tweetDonation } = useTweet();
 
   const query = profile
     ? (query) => query.equalTo("tweeterAcc", account)
@@ -23,6 +23,13 @@ const TweetInFeed: React.FC<Props> = ({ profile }) => {
   const { data } = useMoralisQuery("Tweets", query, [], {
     live: true,
   });
+
+  const getAmount = (data, id, tweeter, user) => {
+    let amount = prompt("Input amount to donate");
+    if (amount !== null || amount !== undefined) {
+      tweetDonation(data, id, user, tweeter, amount);
+    }
+  };
 
   return (
     <>
@@ -74,7 +81,7 @@ const TweetInFeed: React.FC<Props> = ({ profile }) => {
                       onClick={() => likeTweet(data, e.id, user)}
                     >
                       {e.attributes.tweetLikers.includes(
-                        user.attributes.username
+                        user.attributes.ethAddress
                       ) ? (
                         <AiFillHeart fill="red" size={20} />
                       ) : (
@@ -86,7 +93,12 @@ const TweetInFeed: React.FC<Props> = ({ profile }) => {
                           : e.attributes.tweetLikes}
                       </p>
                     </div>
-                    <div className="interactionNums">
+                    <div
+                      className="interactionNums"
+                      onClick={() =>
+                        getAmount(data, e.id, e.attributes.tweeterAcc, user)
+                      }
+                    >
                       <Icon fill="#3f3f3f" size={20} svg="matic" />
                     </div>
                   </div>
@@ -101,3 +113,37 @@ const TweetInFeed: React.FC<Props> = ({ profile }) => {
 };
 
 export default TweetInFeed;
+
+// [
+// 	{
+// 		"inputs": [
+// 			{
+// 				"internalType": "address",
+// 				"name": "accepter",
+// 				"type": "address"
+// 			}
+// 		],
+// 		"name": "deposit",
+// 		"outputs": [],
+// 		"stateMutability": "payable",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"inputs": [],
+// 		"stateMutability": "nonpayable",
+// 		"type": "constructor"
+// 	},
+// 	{
+// 		"inputs": [],
+// 		"name": "doner",
+// 		"outputs": [
+// 			{
+// 				"internalType": "address",
+// 				"name": "",
+// 				"type": "address"
+// 			}
+// 		],
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	}
+// ]
