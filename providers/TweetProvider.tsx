@@ -30,6 +30,9 @@ export const TweetProvider: React.FC<Props> = ({ children }) => {
     newTweet.set("tweetDonations", 0);
     newTweet.set("tweetDoners", []);
 
+    setTweet("");
+    setSelectedFile(null);
+
     if (theFile) {
       const data: any = theFile;
       const file: any = new Moralis.File(data.name, data);
@@ -37,8 +40,6 @@ export const TweetProvider: React.FC<Props> = ({ children }) => {
       newTweet.set("tweetImg", file.ipfs());
     }
 
-    setTweet("");
-    setTheFile(null);
     await newTweet.save();
   };
 
@@ -139,9 +140,9 @@ export const TweetProvider: React.FC<Props> = ({ children }) => {
   };
 
   const tweetDonation = async (data, id, user, tweeter, amount) => {
-    console.log(amount);
     let options = {
-      contractAddress: "0xE5f2A565Ee0Aa9836B4c80a07C8b32aAd7978e22",
+      chain: "mumbai",
+      contractAddress: "0x43D218197E8c5FBC0527769821503660861c7045",
       functionName: "deposit",
       abi: [
         {
@@ -157,6 +158,24 @@ export const TweetProvider: React.FC<Props> = ({ children }) => {
           stateMutability: "payable",
           type: "function",
         },
+        {
+          inputs: [],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          inputs: [],
+          name: "doner",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
       ],
       params: {
         accepter: tweeter,
@@ -170,7 +189,7 @@ export const TweetProvider: React.FC<Props> = ({ children }) => {
         storeDonation(data, id, user, amount);
       },
       onError: (error: any) => {
-        console.log(error.data.message);
+        console.log(error);
       },
     });
   };

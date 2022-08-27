@@ -20,7 +20,7 @@ contract Donation {
     }
 
     function deposit(address accepter) onlyDoner minimumAmount public payable {
-        payable(accepter).transfer(msg.value);
+        payable(accepter).transfer(address(this).balance);
     }
 
 }

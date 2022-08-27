@@ -9,6 +9,11 @@ const Rightbar: React.FC<Props> = () => {
       text: "Check out my portfolio site",
       link: "https://ammarjussa.com/",
     },
+    {
+      img: "facebook-web.png",
+      text: "Checkout this facebook clone using Solana",
+      link: "https://main--facebook-solana-web3.netlify.app/",
+    },
   ];
   return (
     <>

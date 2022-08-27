@@ -26,9 +26,10 @@ const TweetInFeed: React.FC<Props> = ({ profile }) => {
 
   const getAmount = (data, id, tweeter, user) => {
     let amount = prompt("Input amount to donate");
-    if (amount !== null || amount !== undefined) {
+    console.log(amount);
+    if (amount !== null) {
       tweetDonation(data, id, user, tweeter, amount);
-    }
+    } else return;
   };
 
   return (
@@ -99,7 +100,18 @@ const TweetInFeed: React.FC<Props> = ({ profile }) => {
                         getAmount(data, e.id, e.attributes.tweeterAcc, user)
                       }
                     >
-                      <Icon fill="#3f3f3f" size={20} svg="matic" />
+                      {e.attributes.tweetDoners.includes(
+                        user.attributes.ethAddress
+                      ) ? (
+                        <Icon fill="#8247e5" size={20} svg="matic" />
+                      ) : (
+                        <Icon fill="#3f3f3f" size={20} svg="matic" />
+                      )}
+                      <p>
+                        {e.attributes.tweetDonations === 0
+                          ? null
+                          : `${e.attributes.tweetDonations.toFixed(2)} MATIC`}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -113,37 +125,3 @@ const TweetInFeed: React.FC<Props> = ({ profile }) => {
 };
 
 export default TweetInFeed;
-
-// [
-// 	{
-// 		"inputs": [
-// 			{
-// 				"internalType": "address",
-// 				"name": "accepter",
-// 				"type": "address"
-// 			}
-// 		],
-// 		"name": "deposit",
-// 		"outputs": [],
-// 		"stateMutability": "payable",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"inputs": [],
-// 		"stateMutability": "nonpayable",
-// 		"type": "constructor"
-// 	},
-// 	{
-// 		"inputs": [],
-// 		"name": "doner",
-// 		"outputs": [
-// 			{
-// 				"internalType": "address",
-// 				"name": "",
-// 				"type": "address"
-// 			}
-// 		],
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	}
-// ]
